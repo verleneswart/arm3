@@ -1,0 +1,82 @@
+a-link {
+    cursor: pointer;
+    display: none;
+}
+
+a-image[cursor="pointer"] {
+    cursor: pointer;
+}
+a-image:hover + a-link {
+    display: block;
+}
+
+#dialog-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.1em;
+    border-radius: 0.1em;
+}
+
+#dialog-text {
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+a-gui-button {
+    font-size: 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+a-scene {
+    width: 100%;
+    height: 100%;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+a-marker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+a-scene {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none; /* Убирает контур фокуса вокруг кнопок */
+}

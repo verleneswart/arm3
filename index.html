@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Business Card</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/artoolkit/jsartoolkit5/build/artoolkit.min.js"></script>
+    <script src="https://unpkg.com/aframe-gui/dist/aframe-gui.min.js"></script>
+</head>
+<body>
+    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; patternRatio: 0.9; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
+        <a-marker type="pattern" url="assets/marker.patt" id="marker" emitevents="true">
+            <!-- Фоновое изображение -->
+            <a-plane src="assets/background.jpg" position="0 0 -1" rotation="-95 0 0" width="4" height="4"></a-plane>
+
+            <!-- vmoji -->
+            <a-entity position="-0.7 0.88 0">
+                <a-image src="assets/vmoji.png" height="0.27" width="0.27"></a-image>
+            </a-entity>
+
+            <a-entity position="0 -0.25 0">
+                <!-- Текст -->
+                <a-text value="My AR Business Card" align="center" color="#FFFFFF" position="0 1.1 0.01" scale="0.5 0.5 0.5"></a-text>
+                <!-- Текстовое поле под основным текстом -->
+                <a-text id="info-text" value="Your Name\nYour Position\nYour Company" align="center" color="#FFFFFF" position="0 0.8 0.01" scale="0.4 0.4 0.4"></a-text>
+
+                <!-- Кнопка Telegram -->
+                <a-image class="link-button" data-url="https://t.me/Alexandr_Shashaurov" src="assets/telegram.png" height="0.3" width="0.3" position="-0.35 0.5 0.02"></a-image>
+
+                <!-- Кнопка ВКонтакте -->
+                <a-image class="link-button" data-url="https://vk.com/a_sh_winner" src="assets/vk.png" height="0.3" width="0.3" position="-0.05 0.5 0.02"></a-image>
+
+                <!-- Кнопка GitHub -->
+                <a-image class="link-button" data-url="https://github.com/verleneswart" src="assets/github.png" height="0.3" width="0.3" position="0.25 0.5 0.02"></a-image>
+
+                <!-- Кнопка Звонка -->
+                <a-image class="link-button" data-url="tel:+79254621753" src="assets/phone.png" height="0.3" width="0.3" position="0.55 0.5 0.02"></a-image>
+            </a-entity>
+
+            <!-- 3D модель -->
+            <a-entity gltf-model="assets/microwave_scene.gltf" scale="0.1 0.1 0.1" position="-0.7 -0.88 0"></a-entity>
+        </a-marker>
+
+        <!-- Добавляем камеру с курсором -->
+        <a-entity camera look-controls cursor="rayOrigin: mouse">
+            <a-cursor raycaster="objects: .link-button"></a-cursor>
+        </a-entity>
+    </a-scene>
+
+    <script>
+        document.querySelectorAll('.link-button').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.setAttribute('material', 'color', '#9fff5f');
+            });
+
+            button.addEventListener('mouseleave', () => {
+                button.setAttribute('material', 'color', '#FFFFFF');
+            });
+
+            button.addEventListener('click', () => {
+                const url = button.getAttribute('data-url');
+                window.open(url, '_blank');
+            });
+        });
+
+        const marker = document.querySelector('#marker');
+        let markerVisible = false;
+
+        marker.addEventListener('markerFound', () => {
+            markerVisible = true;
+            document.querySelector('a-scene').setAttribute('visible', 'true');
+        });
+
+        marker.addEventListener('markerLost', () => {
+            markerVisible = false;
+            // Keep the scene visible for a while after the marker is lost
+            setTimeout(() => {
+                if (!markerVisible) {
+                    document.querySelector('a-scene').setAttribute('visible', 'false');
+                }
+            }, 60000); // Delay set to 1 minute
+        });
+    </script>
+</body>
+</html>
